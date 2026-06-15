@@ -24,8 +24,6 @@ const cipherMap = [
   { char: 'Y', bay: 'ᜌ', val: 20 },
 ];
 
-// 'yung malapit sa Baybayin sounds nila.
-
 const phoneticMap = {
   'C': 'K',  'F': 'P',  'J': 'D', 
   'Q': 'K',  'V': 'B',  'Z': 'S', 
@@ -41,7 +39,6 @@ export default function App() {
   const [output, setOutput] = useState('');
   const [mode, setMode] = useState('encrypt'); 
   const [steps, setSteps] = useState([]); 
-
 
   const sanitizeInput = (text) => {
     let upper = text.toUpperCase();
@@ -61,7 +58,6 @@ export default function App() {
     return { cleaned, changes };
   };
 
-  // --- ENCRYPTION LOGIC ---
   const handleEncrypt = () => {
     let stepLog = [];
     
@@ -76,11 +72,9 @@ export default function App() {
     let numberString = '';
     let processedInput = cleaned; 
 
-
     for (let i = 0; i < processedInput.length; i++) {
       let char = processedInput[i];
 
-      // Handle NG digraph
       if (char === 'N' && processedInput[i+1] === 'G') {
         char = 'NG';
         i++;
@@ -98,12 +92,10 @@ export default function App() {
         numberString += '00'; 
         stepLog.push(`[SPACE] → 00`);
       } else {
-
         stepLog.push(`${char} → [?] (Ignored)`); 
       }
     }
 
-    // mirroring here
     const mirrored = numberString.split('').reverse().join('');
     setOutput(mirrored);
     
@@ -111,7 +103,6 @@ export default function App() {
     setSteps(stepLog);
   };
 
-  // --- DECRYPTION LOGIC ---
   const handleDecrypt = () => {
     const unMirrored = input.split('').reverse().join('');
     let result = '';
@@ -138,7 +129,6 @@ export default function App() {
     }
     setOutput(result);
     
-    // noting ung sa live trace
     stepLog.push(`Note: Decrypted text is phonetic (e.g., K instead of C).`);
     setSteps(stepLog);
   };
@@ -169,7 +159,7 @@ export default function App() {
           background-color: #f8fafc; 
           color: #334155; 
           font-family: 'Inter', sans-serif; 
-          overflow: hidden; 
+          overflow-x: hidden; 
         }
 
         .main-layout { 
@@ -177,6 +167,17 @@ export default function App() {
           grid-template-columns: 260px 1fr 350px; 
           height: 100vh; 
           width: 100vw; 
+        }
+
+        /* --- MOBILE RESPONSIVE MEDIA QUERY --- */
+        @media (max-width: 900px) {
+          .main-layout { 
+            grid-template-columns: 1fr; 
+            height: auto;
+          }
+          .left-panel, .right-panel {
+            display: none; /* Hide side panels on small screens to prioritize input */
+          }
         }
 
         /* --- LEFT PANEL --- */
@@ -294,7 +295,6 @@ export default function App() {
         }
       `}</style>
 
-      {/* LEFT PANEL */}
       <div className="left-panel">
         <div className="table-header"><BookOpen size={20} /> REFERENCE TABLE</div>
         {cipherMap.map((item) => (
@@ -310,15 +310,14 @@ export default function App() {
            The system automatically converts these letters to Baybayin sounds:
         </div>
         {Object.entries(phoneticMap).map(([key, val]) => (
-             <div className="ref-row" key={key}>
-             <span style={{fontWeight:'800', width: '30px'}}>{key}</span>
-             <span style={{color: '#ef4444'}}>➜</span>
-             <span className="ref-val" style={{color: '#2563eb'}}>{val}</span>
-           </div>
+           <div className="ref-row" key={key}>
+           <span style={{fontWeight:'800', width: '30px'}}>{key}</span>
+           <span style={{color: '#ef4444'}}>➜</span>
+           <span className="ref-val" style={{color: '#2563eb'}}>{val}</span>
+         </div>
         ))}
       </div>
 
-      {/* CENTER PANEL */}
       <div className="center-panel">
         <div className="app-card">
           <div className="title-section">
@@ -366,7 +365,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* RIGHT PANEL */}
       <div className="right-panel">
         <div className="table-header"><Cpu size={20} /> ALGORITHM LOGIC</div>
         
