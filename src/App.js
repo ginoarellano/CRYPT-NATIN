@@ -169,17 +169,6 @@ export default function App() {
           width: 100vw; 
         }
 
-        /* --- MOBILE RESPONSIVE MEDIA QUERY --- */
-        @media (max-width: 900px) {
-          .main-layout { 
-            grid-template-columns: 1fr; 
-            height: auto;
-          }
-          .left-panel, .right-panel {
-            display: none; /* Hide side panels on small screens to prioritize input */
-          }
-        }
-
         /* --- LEFT PANEL --- */
         .left-panel { 
           background: #ffffff; border-right: 1px solid #e2e8f0; 
@@ -292,6 +281,19 @@ export default function App() {
         .flow-title { 
           font-size: 0.8rem; color: #94a3b8; font-weight: 800; 
           text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; 
+        }
+
+        /* --- MOBILE RESPONSIVE MEDIA QUERY --- */
+        @media (max-width: 900px) {
+          .main-layout { 
+            grid-template-columns: 1fr; 
+            height: auto;
+          }
+          
+          /* Reorder elements for mobile: Center first, Left second, Right third */
+          .center-panel { order: 1; }
+          .left-panel   { order: 2; border-right: none; border-bottom: 1px solid #e2e8f0; }
+          .right-panel  { order: 3; border-left: none; }
         }
       `}</style>
 
